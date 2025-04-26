@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tapasvi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            width: 100vw;  /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    box-sizing: border-box; /* Ensures padding/margins don't overflow */
+    overflow-x: hidden; /* Prevents horizontal scroll */
+    overflow-y: auto;
+        }
+
+        /* Contact Bar (Header 1) */
+        .header1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgb(0, 0, 81);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            font-size: 16px;
+            z-index: 1000;
+        }
+
+        /* Contact Details */
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .contact-info a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: black;
+            transform: scale(1.1);
+        }
+
+        .contact-info i {
+            font-size: 18px;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            display: none; /* Hidden on large screens */
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: darkred;
+            transform: scale(1.1);
+        }
+
+        /* Navigation Bar (Header 2) */
+        .second-header {
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 40px; /* Adjusted to be below header1 */
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            z-index: 999;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+        }
+
+        .logo {
+            height: 50px; /* Adjust as needed */
+        }
+
+        .hamburger {
+            cursor: pointer;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            gap: 5px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .hamburger div {
+            width: 30px;
+            height: 4px;
+            background-color: black;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active div:nth-child(1) {
+            transform: rotate(44deg) translate(6.4px, 6.7px);
+        }
+
+        .hamburger.active div:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active div:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex; /* Show on mobile */
+            }
+            
+        }
+        
+* {
+    max-width: 100%;
+    box-sizing: border-box;
+    position: sticky;
+}
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            position: relative; /* For the underline effect */
+            transition: color 0.3s;
+        }
+
+
+        .nav-links a::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: rgb(255, 0, 0); /* Underline color */
+            width: 0;
+            transition: width 0.3s;
+            position: absolute;
+            left: 0;
+            bottom: -5px; /* Position the underline */
+        }
+
+        .nav-links a:hover::after {
+            width: 100%; /* Full width on hover */
+        }
+
+        .donate-button {
+            background-color: green;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .donate-button:hover {
+            background-color: darkgreen;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            /* Hide contact details, show social icons */
+            .contact-info {
+                display: none;
+            }
+
+            .social-icons {
+                display: flex;
+                gap: 15px;
+            }
+
+            /* Navigation Menu */
+            .nav-links {
+                display: none; /* Hidden initially */
+                flex-direction: column;
+                position: absolute;
+                top: 60px; /* Adjusted for spacing */
+                right: 0;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                padding: 10px 0;
+                z-index: 1;
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex; /* Show when active */
+            }
+
+            /* Show hamburger */
+            .hamburger {
+                display: flex;
+                position: absolute;
+                right: 20px; /* Moved to extreme right */
+            }
+        }
+
+        .social-icons-section {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+        }
+
+        .social-icons-section a {
+            color: rgb(255, 0, 0);
+            font-size: 20px;
+            text-align: center;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-icons-section a:hover {
+            color: black;
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .social-icons-section {
+                right: 5px;
+                padding: 5px;
+            }
+
+            .social-icons-section a {
+                font-size: 15px;
+            }
+        }
+
+        /* Slideshow Styles */
+        #home {
+            margin-top: 50px; /* Adjusted to ensure it appears below the second header */
+        }
+
+        #home .slideshow-container {
+            max-width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #home .mySlides {
+            display: none;
+            position: relative;
+        }
+
+        #home img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        
+
+        #home .prev-slide, #home .next-slide {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        #home .next-slide {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        #home .prev-slide:hover, #home .next-slide:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: black;
+        }
+
+        #home .dot-slide {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        #home .active-dot, #home .dot-slide:hover {
+            background-color: #000;
+        }
+
+        @media screen and (min-width: 768px) {
+            #home img {
+                height: 100vh; /* Full viewport height for larger screens */
+                object-fit: cover; /* Crop image to cover the area */
+            }
+
+        }
+        .hamburger {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* For small screens */
+@media (max-width: 600px) {
+    #hamburger {
+        left: 340px; /* Move hamburger a bit to the left */
+        right: auto; /* Remove any right positioning */
+        top: 15px;
+    }
+}
+
+
+
+    </style>
+</head>
+    <!-- Contact Header -->
+    <header class="header1">
+        <div class="contact-info">
+            <a href="tel:+919515529179"><i class="fas fa-phone-alt"></i> +91-9515529179</a>
+            |<a href="mailto:tapasvi.india@gmail.com"><i class="fas fa-envelope"></i>  tapasvi.india@gmail.com</a>
+            |<a href="https://maps.google.com/?q=Road No: 9B, Alkapuri, Hyderabad, 500035" target="_blank">
+                <i class="fas fa-map-marker-alt"></i>  Road No: 9B, Alkapuri, Hyderabad
+            </a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            
+                <a href="https://x.com/tapasviindia"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/tapasvi.india/"><i class="fab fa-instagram"></i></a>
+                <a href="https://in.linkedin.com/in/tapasvi-india-39587911a"><i class="fab fa-linkedin-in"></i>
+                </a>
+       
+        </div>
+
+        <!-- Social Media Icons for Small Screens -->
+        <div class="social-icons">
+            <a href="#"></a>
+            <a href="#"></a>
+            
+            <a href="https://www.facebook.com/Tapasvingo/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://x.com/tapasviindia"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/tapasvi.india/"><i class="fab fa-instagram"></i></a>
+            <a href="https://in.linkedin.com/in/tapasvi-india-39587911a"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </header>
+
+    <style>
+       
+
+        /* Header Styles */
+        .second-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fbfbfb;
+            padding: 10px 20px;
+            color: rgb(8, 8, 8);
+            position: relative;
+            z-index: 1;
+        }
+        .second-header {
+    position: sticky;
+    margin-top: auto;
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
+        .second-header .logo img {
+            height: 90px; /* Adjust logo height */
+        }
+
+        .nav {
+            display: flex;
+            gap: 20px; /* Space between menu items */
+        }
+
+        .nav a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #ff0000; /* Hover color */
+        }
+
+        .donate-btn {
+            background-color: rgb(0, 0, 81);
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: rgb(5, 5, 5);
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .donate-btn:hover{
+            background-color: rgb(255, 255, 255); /* Orange donate button */
+            
+        }
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none; /* Hide hamburger by default */
+            font-size: 30px;
+            cursor: pointer;
+            color: rgb(7, 7, 7);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav {
+                display: none; /* Hide nav by default on small screens */
+                flex-direction: column; /* Stack items vertically */
+                position: absolute;
+                top: 60px; /* Position below the header */
+                left: 0;
+                width: 100%;
+                background-color: #f9f9f9;
+                padding: 10px 0;
+            }
+
+            .nav.active {
+                display: flex; /* Show nav when active */
+            }
+
+            .hamburger {
+                display: block; /* Show hamburger on smaller screens */
+            }
+        }
+       
+    </style>
+    <div class="second-header">
+        <div class="logo">
+            <img src="logo.png" alt="Tapasvi Logo" style="width: 160px; height: auto; margin-top: -10px;">
+          </div>
+          
+        <div class="hamburger" id="hamburger" onclick="toggleNav()">&#9776;</div>
+        <nav class="nav" id="nav">
+            <a href="blackbosx.html">Home</a>
+            <a href="about_us.html">About Us</a>
+            <a href="donate_now.html">Our Wings</a>
+            <a href="updating.html">Media</a>
+            <a href="feature.html">Featured Programs & Events</a>
+            <a href="featured_Event.html">Surveys</a>
+            <a href="team.html">Our Team</a>
+            <a href="contact_us.html">Contact Us</a>
+            <a href="donate_now.html" style="color: white; background-color: rgb(0, 0, 81); padding: 10px 20px; text-decoration: none; border-radius: 5px;">DONATE NOW</a>
+        </nav>
+    </div>
+    
+    <script>
+        function toggleNav() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('active');
+        }
+    </script>
+
+    <section class="social-icons-section">
+        <a href="https://www.facebook.com/Tapasvingo/"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://x.com/tapasviindia"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/tapasvi.india/"><i class="fab fa-instagram"></i></a>
+        <a href="https://in.linkedin.com/in/tapasvi-india-39587911a"><i class="fab fa-linkedin-in"></i></a>
+        <style>
+            .social-icons-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* space between icons */
+    padding: 10px;
+}
+
+.social-icons-section a {
+    color: rgb(0, 0, 81);
+    font-size: 24px;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.social-icons-section a:hover {
+    color: red;
+}
+        </style>
+    </section>
+    
+    <script>
+        function toggleNav() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('active');
+        }
+    </script>
+<section class="community-progress">
+    <div class="image-banner">
+        <img src="women.png" alt="Women's Empowerment Banner" class="banner-img">
+    </div>
+
+    <div class="inspiring-quotes">
+        <p><em>"I measure the progress of a community by the degree of progress which women have achieved." – B. R. Ambedkar</em></p>
+    </div>
+
+    <div class="content">
+        <p>Women's rights mainly include equality, dignity, and freedom from discrimination as per our constitution.</p>
+
+        <p>Women form a significant portion of our population, yet their contribution to the economy remains disproportionately low. Despite notable achievements in government and private sectors, many women—especially from lower-income groups, backward regions, and rural areas—still face significant challenges such as malnutrition, abuse, and the gender pay gap.</p>
+        <p>Equality for women is not just a moral obligation but a crucial factor for the nation’s progress. Women should have equal opportunities in education, work, and access to resources. Empowerment is the key to bridging this gap, enabling women to take control of their decisions and contribute meaningfully to the development of society.</p>
+        <p>At Tapasvi, we believe that empowerment stems from knowledge and the strength to use it at the right time. Our initiatives focus on providing women with the tools to enhance their literacy, health awareness, vocational skills, and citizen rights, ultimately helping them build self-esteem and improve their socio-economic standing.</p>
+    </div>
+
+    <section class="empowerment-programs">
+        <h2>Women's Empowerment Programs</h2>
+        <p>We aim to empower women by focusing on key areas like education, health, and skill development. Through our programs, women gain the necessary knowledge and confidence to improve their well-being and participate in the growth of the community. Our approach is holistic, focusing on literacy, nutrition awareness, vocational skills, and legal rights.</p>
+    </section>
+
+    <section class="upcoming-events">
+        <h2>Trainings and Workshops</h2>
+        <p>Our workshops and training sessions are designed to help women gain skills that promote personal and professional growth. These programs, coming soon, will focus on various functional and vocational skills, enhancing self-reliance and improving their socio-economic status.</p>
+    </section>
+
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Main Section Styling */
+.community-progress {
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.image-banner {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Quote Styling */
+.inspiring-quotes {
+    font-size: 1.2rem;
+    color: #333;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.content p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Section Styling */
+section {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .community-progress {
+        padding: 10px;
+    }
+
+    .inspiring-quotes p, .content p {
+        font-size: 0.9rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-banner {
+        height: 200px;
+    }
+
+    .banner-img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .inspiring-quotes p, .content p {
+        font-size: 0.8rem;
+    }
+}
+</style>
+</section>
+<section class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Get Involved</h3>
+        <ul>
+          <li><a href="#">Volunteer</a></li>
+          <li><a href="#">Donate</a></li>
+          <li><a href="#">Partnerships</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="blackbosx.html">Home</a></li>
+          <li><a href="about_us.html">About Us</a></li>
+          <li><a href="feature.html">Programs</a></li>
+          <li><a href="team.html">Our Team</a></li>
+          <li><a href="featured_Event.html">Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Our Supporters</h3>
+        <img src="infosys_founda.png" alt="Supporters" class="footer-image">
+        <img src="pinetrunk.png" alt="Supporters" class="footer-image">
+        <img src="sbi.png" alt="Supporters" class="footer-image"> <!-- Replace with your image path -->
+      </div>
+      <div class="footer-section">
+        <h3>Contact Details</h3>
+        <p>
+          <i class="fas fa-map-marker-alt"></i> Road No: 9B, Alkapuri, Hyderabad-500035, Telangana.
+        </p>
+        <p>
+          <i class="fas fa-phone"></i> Phone:
+          <a href="tel:+919515529179" style="text-decoration: none; color: inherit;">+91-9515529179</a>
+        </p>
+        <p>
+          <i class="fas fa-envelope"></i> Email:
+          <a href="https://mail.google.com/mail/u/0/?fs=1&to=tapasvi.india@gmail.com&su=Inquiry+from+Your+Website&body=Hello,%0A%0AI+would+like+to+learn+more+about+your+services.%0A%0ABest+Regards,&tf=cm" style="text-decoration: none; color: inherit;">
+            tapasvi.india@gmail.com
+          </a>
+        </p>
+      </div>
+      <div class="footer-section">
+       
+    </div>
+
+  
+  <style>
+    /* Footer Styles */
+    .footer {
+      background-color: #040404;
+      padding: 40px 20px;
+      color: #f8f8f8;
+      font-family: 'Arial', sans-serif;
+      overflow-x: visible;
+    }
+  
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  
+    .footer-section {
+      flex: 1 1 200px; /* Flex-grow, flex-shrink, flex-basis */
+      margin: 10px;
+      min-width: 200px;
+    }
+  
+    .footer-section h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #ffffff;
+    }
+  
+    .footer-section ul {
+      list-style-type: none;
+      padding: 0;
+    }
+  
+    .footer-section ul li {
+      margin: 5px 0;
+    }
+  
+    .footer-section ul li a {
+      text-decoration: none;
+      color: #e6e3e3;
+      transition: color 0.3s;
+    }
+  
+    .footer-section ul li a:hover {
+      color: #fe0c0c;
+    }
+  
+    .footer-image {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+    }
+  
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column; /* Stack sections vertically on small screens */
+        align-items: flex-start;
+      }
+    }
+  </style>
+
+</section>
+</html>

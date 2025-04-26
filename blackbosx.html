@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tapasvi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            width: 100vw;  /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    box-sizing: border-box; /* Ensures padding/margins don't overflow */
+    overflow-x: hidden; /* Prevents horizontal scroll */
+    overflow-y: auto;
+        }
+
+        /* Contact Bar (Header 1) */
+        .header1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgb(0, 0, 81);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            font-size: 16px;
+            z-index: 1000;
+        }
+
+        /* Contact Details */
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .contact-info a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: black;
+            transform: scale(1.1);
+        }
+
+        .contact-info i {
+            font-size: 18px;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            display: none; /* Hidden on large screens */
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: darkred;
+            transform: scale(1.1);
+        }
+
+        /* Navigation Bar (Header 2) */
+        .second-header {
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 40px; /* Adjusted to be below header1 */
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            z-index: 999;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+        }
+
+        .logo {
+            height: 50px; /* Adjust as needed */
+        }
+
+        .hamburger {
+            cursor: pointer;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            gap: 5px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .hamburger div {
+            width: 30px;
+            height: 4px;
+            background-color: black;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active div:nth-child(1) {
+            transform: rotate(44deg) translate(6.4px, 6.7px);
+        }
+
+        .hamburger.active div:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active div:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex; /* Show on mobile */
+            }
+            
+        }
+        
+* {
+    max-width: 100%;
+    box-sizing: border-box;
+    position: sticky;
+}
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            position: relative; /* For the underline effect */
+            transition: color 0.3s;
+        }
+
+
+        .nav-links a::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: rgb(255, 0, 0); /* Underline color */
+            width: 0;
+            transition: width 0.3s;
+            position: absolute;
+            left: 0;
+            bottom: -5px; /* Position the underline */
+        }
+
+        .nav-links a:hover::after {
+            width: 100%; /* Full width on hover */
+        }
+
+        .donate-button {
+            background-color: green;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .donate-button:hover {
+            background-color: darkgreen;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            /* Hide contact details, show social icons */
+            .contact-info {
+                display: none;
+            }
+
+            .social-icons {
+                display: flex;
+                gap: 15px;
+            }
+
+            /* Navigation Menu */
+            .nav-links {
+                display: none; /* Hidden initially */
+                flex-direction: column;
+                position: absolute;
+                top: 60px; /* Adjusted for spacing */
+                right: 0;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                padding: 10px 0;
+                z-index: 1;
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex; /* Show when active */
+            }
+
+            /* Show hamburger */
+            .hamburger {
+                display: flex;
+                position: absolute;
+                right: 20px; /* Moved to extreme right */
+            }
+        }
+
+        .social-icons-section {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+        }
+
+        .social-icons-section a {
+            color: rgb(255, 0, 0);
+            font-size: 20px;
+            text-align: center;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-icons-section a:hover {
+            color: black;
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .social-icons-section {
+                right: 5px;
+                padding: 5px;
+            }
+
+            .social-icons-section a {
+                font-size: 15px;
+            }
+        }
+
+        /* Slideshow Styles */
+        #home {
+            margin-top: 50px; /* Adjusted to ensure it appears below the second header */
+        }
+
+        #home .slideshow-container {
+            max-width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #home .mySlides {
+            display: none;
+            position: relative;
+        }
+
+        #home img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        
+
+        #home .prev-slide, #home .next-slide {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        #home .next-slide {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        #home .prev-slide:hover, #home .next-slide:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: black;
+        }
+
+        #home .dot-slide {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        #home .active-dot, #home .dot-slide:hover {
+            background-color: #000;
+        }
+
+        @media screen and (min-width: 768px) {
+            #home img {
+                height: 100vh; /* Full viewport height for larger screens */
+                object-fit: cover; /* Crop image to cover the area */
+            }
+
+        }
+        .hamburger {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* For small screens */
+@media (max-width: 600px) {
+    #hamburger {
+        left: 340px; /* Move hamburger a bit to the left */
+        right: auto; /* Remove any right positioning */
+        top: 15px;
+    }
+}
+
+
+
+    </style>
+</head>
+    <!-- Contact Header -->
+    <header class="header1">
+        <div class="contact-info">
+            <a href="tel:+919515529179"><i class="fas fa-phone-alt"></i> +91-9515529179</a>
+            |<a href="mailto:tapasvi.india@gmail.com"><i class="fas fa-envelope"></i>  tapasvi.india@gmail.com</a>
+            |<a href="https://maps.google.com/?q=Road No: 9B, Alkapuri, Hyderabad, 500035" target="_blank">
+                <i class="fas fa-map-marker-alt"></i>  Road No: 9B, Alkapuri, Hyderabad
+            </a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            
+                <a href="https://x.com/tapasviindia"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/tapasvi.india/"><i class="fab fa-instagram"></i></a>
+                <a href="https://in.linkedin.com/in/tapasvi-india-39587911a"><i class="fab fa-linkedin-in"></i>
+                </a>
+       
+        </div>
+
+        <!-- Social Media Icons for Small Screens -->
+        <div class="social-icons">
+            <a href="#"></a>
+            <a href="#"></a>
+            
+            <a href="https://www.facebook.com/Tapasvingo/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://x.com/tapasviindia"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/tapasvi.india/"><i class="fab fa-instagram"></i></a>
+            <a href="https://in.linkedin.com/in/tapasvi-india-39587911a"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </header>
+
+    <style>
+       
+
+        /* Header Styles */
+        .second-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fbfbfb;
+            padding: 10px 20px;
+            color: rgb(8, 8, 8);
+            position: relative;
+            z-index: 1;
+        }
+        .second-header {
+    position: sticky;
+    margin-top: auto;
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
+        .second-header .logo img {
+            height: 90px; /* Adjust logo height */
+        }
+
+        .nav {
+            display: flex;
+            gap: 20px; /* Space between menu items */
+        }
+
+        .nav a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #ff0000; /* Hover color */
+        }
+
+        .donate-btn {
+            background-color: rgb(0, 0, 81);
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: rgb(5, 5, 5);
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .donate-btn:hover{
+            background-color: rgb(255, 255, 255); /* Orange donate button */
+            
+        }
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none; /* Hide hamburger by default */
+            font-size: 30px;
+            cursor: pointer;
+            color: rgb(7, 7, 7);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav {
+                display: none; /* Hide nav by default on small screens */
+                flex-direction: column; /* Stack items vertically */
+                position: absolute;
+                top: 60px; /* Position below the header */
+                left: 0;
+                width: 100%;
+                background-color: #f9f9f9;
+                padding: 10px 0;
+            }
+
+            .nav.active {
+                display: flex; /* Show nav when active */
+            }
+
+            .hamburger {
+                display: block; /* Show hamburger on smaller screens */
+            }
+        }
+       
+    </style>
+    <div class="second-header">
+        <div class="logo">
+            <img src="logo.png" alt="Tapasvi Logo" style="width: 160px; height: auto; margin-top: -10px;">
+          </div>
+          
+        <div class="hamburger" id="hamburger" onclick="toggleNav()">&#9776;</div>
+        <nav class="nav" id="nav">
+            <a href="#home">Home</a>
+            <a href="about_us.html">About Us</a>
+            <a href="#mainWingsSection">Our Wings</a>
+            <a href="updating.html">Media</a>
+            <a href="feature.html">Featured Programs & Events</a>
+            <a href="featured_Event.html">Surveys</a>
+            <a href="team.html">Our Team</a>
+            <a href="contact_us.html">Contact Us</a>
+            <a href="donate_now.html" style="color: white; background-color: rgb(0, 0, 81); padding: 10px 20px; text-decoration: none; border-radius: 5px;">DONATE NOW</a>
+        </nav>
+    </div>
+    
+    <script>
+        function toggleNav() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('active');
+        }
+    </script>
+
+    <section class="social-icons-section">
+        <a href="https://www.facebook.com/Tapasvingo/"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://x.com/tapasviindia"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/tapasvi.india/"><i class="fab fa-instagram"></i></a>
+        <a href="https://in.linkedin.com/in/tapasvi-india-39587911a"><i class="fab fa-linkedin-in"></i></a>
+        <style>
+            .social-icons-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* space between icons */
+    padding: 10px;
+}
+
+.social-icons-section a {
+    color: rgb(0, 0, 81);
+    font-size: 24px;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.social-icons-section a:hover {
+    color: red;
+}
+        </style>
+    </section>
+    
+    <section id="home">
+        <div class="slideshow-container">
+            <div class="mySlides">
+                <img src="banner_.png" style="width:100%">
+            </div>
+
+            <div class="mySlides">
+                <img src="Goshala.png" style="width:100%">
+            </div>
+
+            <div class="mySlides">
+                <img src="women.png" style="width:100%">
+            </div>
+
+            <div class="mySlides">
+                <img src="csr.png" style="width:100%">
+            </div>
+
+            <a class="prev-slide" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next-slide" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+
+        <br>
+        <div style="text-align:center">
+            <span class="dot-slide" onclick="currentSlide(1)"></span>
+            <span class="dot-slide" onclick="currentSlide(2)"></span>
+            <span class="dot-slide" onclick="currentSlide(3)"></span>
+            <span class="dot-slide" onclick="currentSlide(4)"></span>
+        </div>
+   
+
+    <script>
+        let slideIndex = 0;
+        let slideInterval;
+
+        function startSlideshow() {
+            slideInterval = setInterval(() => {
+                slideIndex++;
+                showSlides();
+            }, 10000);
+        }
+
+        function showSlides() {
+            const slides = document.querySelectorAll("#home .mySlides");
+            const dots = document.querySelectorAll("#home .dot-slide");
+
+            if (slideIndex >= slides.length) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = slides.length - 1;
+
+            slides.forEach((slide) => (slide.style.display = "none"));
+            dots.forEach((dot) => dot.classList.remove("active-dot"));
+
+            slides[slideIndex].style.display = "block";
+            dots[slideIndex].classList.add("active-dot");
+        }
+
+        function plusSlides(n) {
+            clearInterval(slideInterval);
+            slideIndex += n;
+            showSlides();
+            startSlideshow();
+        }
+
+        function currentSlide(n) {
+            clearInterval(slideInterval);
+            slideIndex = n - 1;
+            showSlides();
+            startSlideshow();
+        }
+
+        showSlides();
+        startSlideshow();
+    </script>
+    </section>
+    
+    <section class="cards-section" id="cardsSection">
+        <div class="cards-container">
+            <div class="card" id="missionCard">
+                <img src="vision1.png" alt="Our Mission" class="card-image"> <!-- Replace with your image -->
+                <h3>OUR MISSION</h3>
+                <p>To achieve Peace, Unity and Brotherhood through community participation in spreading social awareness and ensuring economic development.</p>
+            </div>
+            <div class="card" id="visionCard">
+                <img src="image1.png" alt="Our Vision" class="card-image"> <!-- Replace with your image -->
+                <h3>OUR VISION</h3>
+                <p>To work towards building an enlightened and humane society.</p>
+            </div>
+            <div class="card" id="goalCard">
+                <img src="goal1.png" alt="Our Goal" class="card-image"> <!-- Replace with your image -->
+                <h3>OUR GOAL</h3>
+                <p>To reach more people from the underprivileged sectors and ensure a platform of hope, support, and help through our service.</p>
+            </div>
+        </div>
+    
+    
+    <style>
+        /* Cards Section */
+        .cards-section {
+            padding: 40px;
+            text-align: center;
+            background-color: #ffffff;
+            overflow: visible; /* Prevents horizontal scroll */
+
+        }
+    
+        .cards-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+    
+        .cards-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px; /* Fixed width for cards */
+            opacity: 0; /* Initially hidden */
+            transform: translateY(20px); /* Slide in effect */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            padding: 20px;
+            text-align: left;
+        }
+    
+        .card.visible {
+            opacity: 1; /* Show when visible */
+            transform: translateY(0); /* Slide in */
+        }
+    
+        .card-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    
+        .card h3 {
+            font-size: 22px;
+            margin: 15px 0;
+            color: #333;
+        }
+    
+        .card p {
+            font-size: 16px;
+            color: #555;
+        }
+    
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .card {
+                width: 90%; /* Full width on small screens */
+            }
+        }
+    </style>
+    
+    <script>
+        // Function to show the cards on scroll
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.card');
+            const screenPosition = window.innerHeight / 1.2; // Trigger when card is 80% visible
+    
+            cards.forEach(card => {
+                const cardPosition = card.getBoundingClientRect().top;
+    
+                if (cardPosition < screenPosition) {
+                    card.classList.add('visible');
+                }
+            });
+        });
+    </script>
+    </section>
+    <section class="about-us-section" id="aboutUsSection">
+        <h2>ABOUT US</h2>
+        <p>
+            Tapasvi has been operational since 25 years and is a secular, non-governmental, non-political, non-sectarian, non-profit making organization, founded in the year 1997 by Ms. Padmavathi, driven by her passion for service to mankind.
+        </p>
+        <p>
+            In the year 1994, Ms. Padmavathi along with a couple of her friends formed a small team and started serving in underprivileged sectors. Then on 1st January 1996, they coined the name Tapasvi, which was later officially registered on 26th June 1997, bearing the Registration No: 3052/1997. Tapasvi also has 12A, 80G, FCRA registration certificates in place.
+        </p>
+    
+    
+    <style>
+        /* About Us Section */
+        .about-us-section {
+            padding: 40px;
+            background-color: #ffffff !important;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 20px; /* Add margin for spacing */
+            overflow-x: visible; /* Prevents horizontal scroll */
+
+        }
+    
+        .about-us-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+            position: relative; /* For the underline effect */
+            display: inline-block; /* Allow padding and margin to work correctly */
+        }
+    
+        .about-us-section h2::after {
+            content: '';
+            display: block;
+            height: 2px; /* Underline thickness */
+            background: red; /* Underline color */
+            width: 100%; /* Full width */
+            position: absolute;
+            left: 0;
+            bottom: -5px; /* Position the underline */
+            transform: scaleX(0); /* Start with no width */
+            transition: transform 0.5s ease; /* Transition effect */
+        }
+    
+        .about-us-section.visible h2::after {
+            transform: scaleX(1); /* Scale to full width */
+            animation: continuous-underline 1s linear infinite; /* Continuous animation */
+        }
+    
+       
+    
+        .about-us-section p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6; /* Improved readability */
+            margin-bottom: 20px;
+        }
+    
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .about-us-section h2 {
+                font-size: 24px;
+            }
+    
+            .about-us-section p {
+                font-size: 16px;
+            }
+        }
+    </style>
+    
+    <script>
+        // Function to show the underline effect when the section is in view
+        window.addEventListener('scroll', () => {
+            const section = document.getElementById('aboutUsSection');
+            const sectionPosition = section.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.2; // Trigger when section is 80% visible
+    
+            if (sectionPosition < screenPosition) {
+                section.classList.add('visible');
+            }
+        });
+    </script>
+</section>
+<section class="main-wings-section" id="mainWingsSection">
+    <h2>TAPASVI - MAIN WINGS</h2>
+    <div class="cards-container">
+        <div class="card" id="womenEmpowermentCard">
+            <img src="women.png" alt="Women Empowerment" class="card-image">
+            <h3>WOMEN EMPOWERMENT</h3>
+            <p>"I measure the progress of a community by the degree of progress which women have achieved." - B. R. Ambedkar</p>
+            <p>Women's rights mainly include equality, dignity, and freedom from discrimination as per our constitution. Empowerment entitles people to have power and control over their own decisions.</p>
+            <p>Tapasvi believes that empowered women will be able to exercise their power for the benefit of self, make meaningful contributions to the well-being of society and gain respect for themselves.</p>
+            <div class="button-container">
+                <a href="women.html" class="more-btn">More</a>
+            </div>
+        </div>
+
+        <div class="card" id="childrensWelfareCard">
+            <img src="child.png" alt="Children's Welfare Centre" class="card-image">
+            <h3>CHILDREN'S WELFARE CENTRE</h3>
+            <p>"Children are the world's most valuable resource and its best hope for the future." - J. F. Kennedy</p>
+            <p>We adopt children who are orphans, semi-orphans, challenged and economically backward and provide them with the basic necessities - free food, clothing and shelter, and modern education focusing on critical thinking and life skills.</p>
+            <div class="button-container">
+                <a href="child_care.html" class="more-btn">More</a>
+            </div>
+          
+        </div>
+
+        <div class="card" id="eldersCareCard">
+            <img src="elder.png" alt="Elders' Care Centre" class="card-image">
+            <h3>ELDERS' CARE CENTRE</h3>
+            <p>"Old Age believe me, is a good and pleasant thing. It is true you have power and control over your own decisions." - Confucius</p>
+            <p>Tapasvi serves poor, abandoned and helpless senior citizens who wish to age gracefully with dignity and need assistance with daily living.</p>
+            <div class="button-container">
+                <a href="elder_care.html" class="more-btn">More</a>
+            </div>
+        </div>
+
+        <div class="card" id="goshalasCard">
+            <img src="goshala.png" alt="Goshala" class="card-image">
+            <h3>GOSHALA</h3>
+            <p>Sheltering of old, unproductive and abandoned cows in traditional cow shelters (gaushalas) is an ancient practice in India. Cow seva (caring for the cows) is considered one of the highest forms of service.</p>
+            <div class="button-container">
+                <a href="cow.html" class="more-btn">More</a>
+            </div>
+        </div>
+
+        <div class="card" id="csrCollaborationsCard">
+            <img src="csr.png" alt="CSR Collaborations" class="card-image">
+            <h3>CSR COLLABORATIONS</h3>
+            <p>We have forayed into CSR collaborations in recent times, associated with Infosys and SBI for various projects under our women empowerment wing and beyond.</p>
+            <div class="button-container">
+                <a href="conversation.html" class="more-btn">More</a>
+            </div>
+        </div>
+
+        <div class="card" id="conservationCard">
+            <img src="conservation.png" alt="Conservation of Resources" class="card-image">
+            <h3>CONSERVATION OF RESOURCES</h3>
+            <p>We promote sustainability through Environmental conservation, Social equality, and Economic progress. We align with the UN’s 17 SDGs to protect our planet's resources.</p>
+            <div class="button-container">
+                <a href="csr.html" class="more-btn">More</a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .main-wings-section {
+            padding: 40px;
+            background-color: #ffffff !important;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 20px;
+        }
+
+        .main-wings-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+            position: relative;
+            display: inline-block;
+        }
+
+        .main-wings-section h2::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: red;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            padding: 20px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin: 15px 0;
+            color: #333;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .more-btn {
+            background-color: rgb(0, 0, 81);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .more-btn:hover {
+            background-color: rgb(255, 0, 0);
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 90%;
+            }
+
+            .main-wings-section h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const screenPosition = window.innerHeight / 1.2;
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const cardPosition = card.getBoundingClientRect().top;
+                if (cardPosition < screenPosition) {
+                    card.classList.add('visible');
+                }
+            });
+        });
+    </script>
+</section>
+<section class="scan-pay-section" id="scanPaySection">
+    <h2>SCAN & PAY</h2>
+    <p>YOUR SUPPORT MAKES US BETTER</p>
+    <p>Help our organization by donating today! All donations go directly to making a difference for our cause.</p>
+    <p>Get Tax Exemption on Your Donation.</p>
+    <button class="donate-button" id="donateButton">Donate Now</button>
+
+    <!-- QR Code Section -->
+    <div id="qrCodeContainer" class="qr-code-container">
+        <h3>Scan the QR Code to Donate</h3>
+        <img id="qrCodeImage" src="img1.png" alt="QR Code" />
+    </div>
+
+
+<style>
+    /* SCAN & PAY Section */
+    .scan-pay-section {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin: 20px; /* Add margin for spacing */
+        overflow: visible;
+
+    }
+
+    .scan-pay-section h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .scan-pay-section p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #555;
+    }
+
+    .scan-pay-section .donate-button {
+        background-color: rgb(0, 0, 81);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .scan-pay-section .donate-button:hover {
+        background-color: rgb(255, 0, 0);
+    }
+
+    /* QR Code Container */
+    .qr-code-container {
+        margin-top: 20px;
+        display: none; /* Initially hidden */
+    }
+
+    .qr-code-container h3 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .qr-code-container img {
+        width: 200px; /* Adjust size as needed */
+        height: auto;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .qr-code-container {
+            display: none; /* Hidden on small screens until button is clicked */
+        }
+
+        .scan-pay-section h2 {
+            font-size: 24px;
+        }
+
+        .scan-pay-section p {
+            font-size: 16px;
+        }
+
+        .qr-code-container img {
+            width: 150px; /* Smaller size for mobile */
+        }
+    }
+
+    /* Show QR code by default on larger screens */
+    @media (min-width: 769px) {
+        .qr-code-container {
+            display: block; /* Show by default on larger screens */
+        }
+    }
+
+
+</style>
+
+<script>
+    // Function to show the SCAN & PAY section on scroll
+    window.addEventListener('scroll', () => {
+        const section = document.getElementById('scanPaySection');
+        const sectionPosition = section.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2; // Trigger when section is 80% visible
+
+        if (sectionPosition < screenPosition) {
+            section.classList.add('visible');
+        }
+    });
+
+    // Function to show QR code when Donate Now button is clicked
+    document.getElementById('donateButton').addEventListener('click', () => {
+        const qrCodeContainer = document.getElementById('qrCodeContainer');
+        qrCodeContainer.style.display = 'block'; // Show the QR code container on button click
+    });
+</script>
+</section>
+<section class="testimonials" id="testimonials">
+    <div class="testimonials-section">
+        <h2 class="animated-heading">Testimonials</h2>
+        
+        <!-- Testimonials Container -->
+        <div class="testimonials-container" id="testimonials-container">
+            <div class="testimonial">
+                <p>"I've been part of Tapasvi's work for a long time and feel happy every time they reach out to me for any help. I spend most of my weekends with them and feel relieved when I see the Kid's smiles."</p>
+                <h4>Mahesh Mamilla</h4>
+                <p>Teacher</p>
+            </div>
+            <div class="testimonial">
+                <p>"I heard about Tapasvi from a colleague and I went to their location to see their service. They warmly welcomed me and explained all their current and upcoming projects. I really like their vision and their dedication. I hope they help more and more needy people with all people's support."</p>
+                <h4>Kranthi</h4>
+                <p>Private Employee</p>
+            </div>
+            <div class="testimonial">
+                <p>"You are doing a great job.... want to applaud you for your dedication and humbleness. May the Lord bless you always."</p>
+                <h4>Mounika Devarakonda</h4>
+                <p>Home Maker</p>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: #ffffff; /* Light background */
+            padding: 40px 20px;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            color: #000000; /* Text color */
+            position: relative;
+            overflow: visible; /* Prevents horizontal scroll */
+
+        }
+    
+        .animated-heading {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            position: relative; /* For the underline effect */
+            display: inline-block; /* Allow padding and margin to work correctly */
+        }
+
+        .animated-heading::after {
+            content: '';
+            display: block;
+            height: 2px; /* Underline thickness */
+            background: red; /* Underline color */
+            width: 100%; /* Full width */
+            position: absolute;
+            left: 0;
+            bottom: -5px; /* Position the underline */
+            transform: scaleX(0); /* Start with no width */
+            animation: continuous-underline 1.5s linear infinite; /* Continuous animation */
+        }
+
+       
+    
+        .testimonials-section h2 {
+            margin-bottom: 20px;
+        }
+    
+        /* Testimonials Container */
+        .testimonials-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto; /* Enables manual horizontal scrolling */
+            padding-bottom: 20px;
+            justify-content: flex-start;
+            scroll-snap-type: x mandatory; /* Ensures smooth snapping of items */
+            cursor: pointer;
+            transition: transform 0.5s ease; /* Smooth transition for sliding */
+        }
+    
+        /* Individual Testimonial */
+        .testimonial {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            min-width: 250px;
+            text-align: left;
+            transition: transform 0.3s ease-in-out;
+            scroll-snap-align: start; /* Ensures that cards snap into place when scrolling */
+        }
+    
+        .testimonial:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .testimonial p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+    
+        .testimonial h4 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000000; /* Green text for authors */
+        }
+    
+        /* Responsive Styles for Large Screens */
+        @media (min-width: 768px) {
+            .testimonials-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr); /* 3 cards per row on larger screens */
+                gap: 30px;
+                overflow-x: hidden; /* Disable horizontal scroll for larger screens */
+            }
+        }
+    
+        /* Scroll Styles for Small Screens */
+        @media (max-width: 768px) {
+            .testimonials-container {
+                flex-direction: row;
+                gap: 10px;
+                overflow-x: auto; /* Horizontal scroll on small screens */
+            }
+        }
+    </style>
+</section>
+<section class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Get Involved</h3>
+        <ul>
+          <li><a href="#">Volunteer</a></li>
+          <li><a href="#">Donate</a></li>
+          <li><a href="#">Partnerships</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="about_us.html">About Us</a></li>
+          <li><a href="team.html">Our Team</a></li>
+          <li><a href="updating.html">Programs</a></li>
+          <li><a href="updating.html">Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Our Supporters</h3>
+        <img src="infosys_founda.png" alt="Supporters" class="footer-image">
+        <img src="pinetrunk.png" alt="Supporters" class="footer-image">
+        <img src="sbi.png" alt="Supporters" class="footer-image"> <!-- Replace with your image path -->
+      </div>
+      <div class="footer-section">
+        <h3>Contact Details</h3>
+        <p>
+          <i class="fas fa-map-marker-alt"></i> Road No: 9B, Alkapuri, Hyderabad-500035, Telangana.
+        </p>
+        <p>
+          <i class="fas fa-phone"></i> Phone:
+          <a href="tel:+919515529179" style="text-decoration: none; color: inherit;">+91-9515529179</a>
+        </p>
+        <p>
+          <i class="fas fa-envelope"></i> Email:
+          <a href="https://mail.google.com/mail/u/0/?fs=1&to=tapasvi.india@gmail.com&su=Inquiry+from+Your+Website&body=Hello,%0A%0AI+would+like+to+learn+more+about+your+services.%0A%0ABest+Regards,&tf=cm" style="text-decoration: none; color: inherit;">
+            tapasvi.india@gmail.com
+          </a>
+        </p>
+      </div>
+      <div class="footer-section">
+       
+    </div>
+
+  
+  <style>
+    /* Footer Styles */
+    .footer {
+      background-color: #040404;
+      padding: 40px 20px;
+      color: #f8f8f8;
+      font-family: 'Arial', sans-serif;
+      overflow-x: visible;
+    }
+  
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  
+    .footer-section {
+      flex: 1 1 200px; /* Flex-grow, flex-shrink, flex-basis */
+      margin: 10px;
+      min-width: 200px;
+    }
+  
+    .footer-section h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #ffffff;
+    }
+  
+    .footer-section ul {
+      list-style-type: none;
+      padding: 0;
+    }
+  
+    .footer-section ul li {
+      margin: 5px 0;
+    }
+  
+    .footer-section ul li a {
+      text-decoration: none;
+      color: #e6e3e3;
+      transition: color 0.3s;
+    }
+  
+    .footer-section ul li a:hover {
+      color: #fe0c0c;
+    }
+  
+    .footer-image {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+    }
+  
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column; /* Stack sections vertically on small screens */
+        align-items: flex-start;
+      }
+    }
+  </style>
+
+</section>
+</body>
+</html>

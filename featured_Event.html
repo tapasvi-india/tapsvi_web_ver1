@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tapasvi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            width: 100vw;  /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    box-sizing: border-box; /* Ensures padding/margins don't overflow */
+    overflow-x: hidden; /* Prevents horizontal scroll */
+    overflow-y: auto;
+        }
+
+        /* Contact Bar (Header 1) */
+        .header1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgb(0, 0, 81);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            font-size: 16px;
+            z-index: 1000;
+        }
+
+        /* Contact Details */
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .contact-info a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: black;
+            transform: scale(1.1);
+        }
+
+        .contact-info i {
+            font-size: 18px;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            display: none; /* Hidden on large screens */
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: darkred;
+            transform: scale(1.1);
+        }
+
+        /* Navigation Bar (Header 2) */
+        .second-header {
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 40px; /* Adjusted to be below header1 */
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            z-index: 999;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+        }
+
+        .logo {
+            height: 50px; /* Adjust as needed */
+        }
+
+        .hamburger {
+            cursor: pointer;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            gap: 5px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .hamburger div {
+            width: 30px;
+            height: 4px;
+            background-color: black;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active div:nth-child(1) {
+            transform: rotate(44deg) translate(6.4px, 6.7px);
+        }
+
+        .hamburger.active div:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active div:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex; /* Show on mobile */
+            }
+            
+        }
+        
+* {
+    max-width: 100%;
+    box-sizing: border-box;
+    position: sticky;
+}
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            position: relative; /* For the underline effect */
+            transition: color 0.3s;
+        }
+
+
+        .nav-links a::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: rgb(255, 0, 0); /* Underline color */
+            width: 0;
+            transition: width 0.3s;
+            position: absolute;
+            left: 0;
+            bottom: -5px; /* Position the underline */
+        }
+
+        .nav-links a:hover::after {
+            width: 100%; /* Full width on hover */
+        }
+
+        .donate-button {
+            background-color: green;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .donate-button:hover {
+            background-color: darkgreen;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            /* Hide contact details, show social icons */
+            .contact-info {
+                display: none;
+            }
+
+            .social-icons {
+                display: flex;
+                gap: 15px;
+            }
+
+            /* Navigation Menu */
+            .nav-links {
+                display: none; /* Hidden initially */
+                flex-direction: column;
+                position: absolute;
+                top: 60px; /* Adjusted for spacing */
+                right: 0;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                padding: 10px 0;
+                z-index: 1;
+                box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex; /* Show when active */
+            }
+
+            /* Show hamburger */
+            .hamburger {
+                display: flex;
+                position: absolute;
+                right: 20px; /* Moved to extreme right */
+            }
+        }
+
+        .social-icons-section {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+        }
+
+        .social-icons-section a {
+            color: rgb(255, 0, 0);
+            font-size: 20px;
+            text-align: center;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-icons-section a:hover {
+            color: black;
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .social-icons-section {
+                right: 5px;
+                padding: 5px;
+            }
+
+            .social-icons-section a {
+                font-size: 15px;
+            }
+        }
+
+        /* Slideshow Styles */
+        #home {
+            margin-top: 50px; /* Adjusted to ensure it appears below the second header */
+        }
+
+        #home .slideshow-container {
+            max-width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #home .mySlides {
+            display: none;
+            position: relative;
+        }
+
+        #home img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        
+
+        #home .prev-slide, #home .next-slide {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        #home .next-slide {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        #home .prev-slide:hover, #home .next-slide:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: black;
+        }
+
+        #home .dot-slide {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        #home .active-dot, #home .dot-slide:hover {
+            background-color: #000;
+        }
+
+        @media screen and (min-width: 768px) {
+            #home img {
+                height: 100vh; /* Full viewport height for larger screens */
+                object-fit: cover; /* Crop image to cover the area */
+            }
+
+        }
+        .hamburger {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* For small screens */
+@media (max-width: 600px) {
+    #hamburger {
+        left: 340px; /* Move hamburger a bit to the left */
+        right: auto; /* Remove any right positioning */
+        top: 15px;
+    }
+}
+
+
+
+    </style>
+</head>
+    <!-- Contact Header -->
+    <header class="header1">
+        <div class="contact-info">
+            <a href="tel:+919515529179"><i class="fas fa-phone-alt"></i> +91-9515529179</a>
+            |<a href="mailto:tapasvi.india@gmail.com"><i class="fas fa-envelope"></i>  tapasvi.india@gmail.com</a>
+            |<a href="https://maps.google.com/?q=Road No: 9B, Alkapuri, Hyderabad, 500035" target="_blank">
+                <i class="fas fa-map-marker-alt"></i>  Road No: 9B, Alkapuri, Hyderabad
+            </a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            
+                <a href="https://x.com/tapasviindia"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/tapasvi.india/"><i class="fab fa-instagram"></i></a>
+                <a href="https://in.linkedin.com/in/tapasvi-india-39587911a"><i class="fab fa-linkedin-in"></i>
+                </a>
+       
+        </div>
+
+        <!-- Social Media Icons for Small Screens -->
+        <div class="social-icons">
+            <a href="#"></a>
+            <a href="#"></a>
+            
+            <a href="https://www.facebook.com/Tapasvingo/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://x.com/tapasviindia"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/tapasvi.india/"><i class="fab fa-instagram"></i></a>
+            <a href="https://in.linkedin.com/in/tapasvi-india-39587911a"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </header>
+
+    <style>
+       
+
+        /* Header Styles */
+        .second-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fbfbfb;
+            padding: 10px 20px;
+            color: rgb(8, 8, 8);
+            position: relative;
+            z-index: 1;
+        }
+        .second-header {
+    position: sticky;
+    margin-top: auto;
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
+        .second-header .logo img {
+            height: 90px; /* Adjust logo height */
+        }
+
+        .nav {
+            display: flex;
+            gap: 20px; /* Space between menu items */
+        }
+
+        .nav a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #ff0000; /* Hover color */
+        }
+
+        .donate-btn {
+            background-color: rgb(0, 0, 81);
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: rgb(5, 5, 5);
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .donate-btn:hover{
+            background-color: rgb(255, 255, 255); /* Orange donate button */
+            
+        }
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none; /* Hide hamburger by default */
+            font-size: 30px;
+            cursor: pointer;
+            color: rgb(7, 7, 7);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav {
+                display: none; /* Hide nav by default on small screens */
+                flex-direction: column; /* Stack items vertically */
+                position: absolute;
+                top: 60px; /* Position below the header */
+                left: 0;
+                width: 100%;
+                background-color: #f9f9f9;
+                padding: 10px 0;
+            }
+
+            .nav.active {
+                display: flex; /* Show nav when active */
+            }
+
+            .hamburger {
+                display: block; /* Show hamburger on smaller screens */
+            }
+        }
+       
+    </style>
+    <div class="second-header">
+      <div class="logo">
+        <img src="logo.png" alt="Tapasvi Logo" style="width: 160px; height: auto; margin-top: -10px;">
+      </div>
+      
+        <div class="hamburger" id="hamburger" onclick="toggleNav()">&#9776;</div>
+        <nav class="nav" id="nav">
+            <a href="blackbosx.html">Home</a>
+            <a href="about_us.html">About Us</a>
+            <a href="donate_now.html">Our Wings</a>
+            <a href="updating.html">Media</a>
+            <a href="feature.html">Featured Programs & Events</a>
+            <a href="featured_Event.html">Surveys</a>
+            <a href="team.html">Our Team</a>
+            <a href="contact_us.html">Contact Us</a>
+            <a href="donate_now.html" style="color: white; background-color: rgb(0, 0, 81); padding: 10px 20px; text-decoration: none; border-radius: 5px;">DONATE NOW</a>
+        </nav>
+    </div>
+    
+    <script>
+        function toggleNav() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('active');
+        }
+    </script>
+
+    <section class="social-icons-section">
+        <a href="https://www.facebook.com/Tapasvingo/"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://x.com/tapasviindia"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/tapasvi.india/"><i class="fab fa-instagram"></i></a>
+        <a href="https://in.linkedin.com/in/tapasvi-india-39587911a"><i class="fab fa-linkedin-in"></i></a>
+        <style>
+            .social-icons-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* space between icons */
+    padding: 10px;
+}
+
+.social-icons-section a {
+    color: rgb(0, 0, 81);
+    font-size: 24px;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.social-icons-section a:hover {
+    color: red;
+}
+        </style>
+    </section>
+    <br>
+    <section id="surveys-outreach" class="py-5">
+        <style>
+          #surveys-outreach {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+          }
+      
+          #surveys-outreach .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+      
+          #surveys-outreach .section-heading {
+            color: rgb(0, 0, 81);
+            text-align: center;
+          }
+      
+          #surveys-outreach .lead-text {
+            color: #6c757d;
+            text-align: center;
+          }
+      
+          #surveys-outreach .card-title {
+            color: rgb(0, 0, 81);
+            font-weight: 600;
+          }
+      
+          #surveys-outreach .card {
+            transition: transform 0.2s ease-in-out;
+          }
+      
+          #surveys-outreach .card:hover {
+            transform: translateY(-5px);
+          }
+      
+          #surveys-outreach .impact-list,
+          #surveys-outreach .survey-points {
+            padding-left: 0;
+            list-style: none;
+          }
+      
+          #surveys-outreach .impact-list li,
+          #surveys-outreach .survey-points li {
+            margin-bottom: 0.5rem;
+          }
+      
+          #surveys-outreach .cta-section {
+            background-color: #e9f7ef;
+            padding: 2rem;
+            border-radius: 8px;
+          }
+      
+          #surveys-outreach .btn-donate {
+            background-color: rgb(0, 0, 81);
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 0;
+            text-decoration: none;
+            display: inline-block;
+          }
+      
+          #surveys-outreach .btn-donate:hover {
+            background-color: rgb(247, 5, 5);
+            text-decoration: none;
+          }
+          #surveys-outreach .container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 1140px; /* ensures center alignment on large screens */
+}
+          @media (min-width: 768px) {
+            #surveys-outreach .container {
+              max-width: 960px;
+            }
+          }
+      
+          @media (min-width: 1200px) {
+            #surveys-outreach .container {
+              max-width: 1140px;
+            }
+          }
+        </style>
+       
+        <div class="container">
+          <div class="text-center mb-5">
+            <h2 class="section-heading display-5 fw-bold">Surveys & Outreach by TAPASVI</h2>
+            <p class="lead lead-text">Transforming understanding into action to uplift the most vulnerable.</p>
+          </div>
+      
+          <div class="row mb-5 justify-content-center">
+            <div class="col-md-10">
+              <p class="fs-5 text-muted">
+                At TAPASVI, we believe that effective intervention begins with understanding. Our team regularly conducts community surveys and outreach programs to assess the needs, challenges, and living conditions of various vulnerable groups—especially the elderly, women, children, and the economically disadvantaged.
+              </p>
+              <ul class="survey-points fs-5">
+                <li>Design targeted and impactful programs</li>
+                <li>Ensure resources reach the right beneficiaries</li>
+                <li>Promote community participation in development efforts</li>
+                <li>Continuously improve and adapt our services</li>
+              </ul>
+              <p class="fs-5 text-muted">Through our outreach efforts, we strive to listen, learn, and act—ensuring that our initiatives are both responsive and inclusive.</p>
+            </div>
+          </div>
+      
+    <div class="row g-4">
+            <div class="col-12">
+              <h4 class="card-title">1. Survey on Beggars (Duration: 18 Months)</h4>
+              <p><strong>Objective:</strong> The primary objective of this extensive survey was to understand the socio-economic conditions and root causes that lead individuals into begging. By evaluating their living standards, health status, and level of social isolation, TAPASVI aimed to develop targeted interventions to reintegrate these individuals into mainstream society or offer them alternative, dignified livelihoods.</p>
+              <p><strong>Key Areas Covered:</strong></p>
+              <ul class="survey-points">
+                <li><strong>Demographic Profile:</strong> Collected detailed data on age, gender, family structure, and economic background to understand the makeup of the beggar population.</li>
+                <li><strong>Health and Well-being:</strong> Assessed physical and mental health conditions, access to medical care, and the impact of life on the streets on overall well-being.</li>
+                <li><strong>Causes of Begging:</strong> Investigated underlying factors such as poverty, lack of education, family disintegration, physical disability, addiction, and unemployment.</li>
+                <li><strong>Social Support Systems:</strong> Explored the presence or absence of family support, awareness and use of government welfare schemes, and engagement with NGOs or charitable organizations.</li>
+                <li><strong>Social Support Systems:</strong>
+                    Explored the presence or absence of family support, awareness and use of government welfare schemes, and engagement with NGOs or charitable organizations.
+                  </li>
+              </ul>
+            </div>
+          
+             
+      
+            <div class="col-12">
+                <h4 class="card-title">2. Survey on Street Children (Duration: 8–10 Months)</h4>
+                <p><strong>Objective:</strong> This survey was undertaken to gain an in-depth understanding of the living conditions, educational access, and emotional and social challenges faced by children living on the streets. The insights obtained enabled TAPASVI to design targeted intervention programs addressing their immediate and long-term needs, including education, healthcare, shelter, and emotional support.</p>
+                <p><strong>Key Areas Covered:</strong></p>
+                <ul class="survey-points">
+                  <li><strong>Demographic Profile:</strong> Collected data on age, gender, family structure, and reasons for living on the streets—ranging from poverty, orphanhood, and domestic violence to displacement and abandonment.</li>
+                  <li><strong>Education and Skills:</strong> Evaluated the children’s literacy levels, school attendance, and vocational abilities, as well as barriers to accessing formal education systems.</li>
+                  <li><strong>Health and Hygiene:</strong> Assessed common health issues such as malnutrition, skin infections, respiratory problems, and poor hygiene practices stemming from lack of sanitation and healthcare access.</li>
+                  <li><strong>Psychological Impact:</strong> Explored the mental and emotional toll of street life, including exposure to abuse, trauma, neglect, and substance abuse, which often leads to long-term psychological consequences.</li>
+                  <li><strong>Social Exclusion:</strong> Investigated how stigma, discrimination, and lack of legal identity affect children’s access to opportunities and services, reinforcing a cycle of marginalization.</li>
+                </ul>
+              </div>
+              
+      
+              <div class="col-12">
+                <h4 class="card-title">3. Survey on Elderly People (Duration: 8–10 Months)</h4>
+                <p><strong>Objective:</strong> The aim of this survey was to assess the challenges faced by the elderly population, particularly those who are abandoned, socially isolated, or economically vulnerable. Conducted by TAPASVI, the survey provided crucial insights into their living conditions, healthcare requirements, and emotional support systems—forming the foundation for the design and implementation of targeted elder care initiatives.</p>
+                <p><strong>Key Areas Covered:</strong></p>
+                <ul class="survey-points">
+                  <li><strong>Demographic Profile:</strong> Collected data on age, gender, marital status, family composition, and social background to identify vulnerable subgroups among the elderly.</li>
+                  <li><strong>Healthcare Needs:</strong> Investigated access to medical care, presence of chronic illnesses, usage of prescribed medications, and affordability of treatments and diagnostics.</li>
+                  <li><strong>Social Isolation:</strong> Explored the degree of social connectivity, availability of family support, and participation in community life, identifying individuals at risk of emotional neglect or depression.</li>
+                  <li><strong>Financial Stability:</strong> Analysed sources of income such as pensions, savings, or family support, and assessed their financial independence or dependency.</li>
+                  <li><strong>Living Conditions:</strong> Evaluated whether individuals resided alone, with family, or in institutional care (like old age homes), and studied the quality and safety of their housing arrangements.</li>
+                </ul>
+              </div>
+              
+      
+              <div class="col-12">
+                <h4 class="card-title">4. Survey on Tribal People (Duration: 8–10 Months)</h4>
+                <p><strong>Objective:</strong> This survey was conducted to gain a comprehensive understanding of the lifestyle, health, education, and socio-economic conditions of tribal communities living in remote and underserved regions. The primary goal was to identify barriers to accessing basic services—such as healthcare, education, sanitation, and welfare schemes—and to design programs that are both inclusive and respectful of their cultural heritage.</p>
+                <p><strong>Key Areas Covered:</strong></p>
+                <ul class="survey-points">
+                  <li><strong>Demographic Profile:</strong> Collected data on age, family structure, income levels, and traditional living patterns to understand the socio-economic dynamics of tribal households.</li>
+                  <li><strong>Health and Hygiene:</strong> Assessed general health status, prevalence of communicable and non-communicable diseases, nutritional deficiencies, and access to clean water, sanitation, and healthcare services.</li>
+                  <li><strong>Education and Livelihood:</strong> Studied literacy rates, school attendance, educational infrastructure, traditional occupations, forest dependency, and access to modern skill development and employment opportunities.</li>
+                  <li><strong>Social and Cultural Practices:</strong> Mapped indigenous traditions, customs, and beliefs—especially those influencing health, hygiene, gender roles, and education—to understand how cultural perspectives affect service adoption.</li>
+                  <li><strong>Access to Government Schemes:</strong> Identified gaps in awareness, accessibility, and inclusion regarding government welfare schemes, social security programs, and developmental initiatives intended for tribal populations.</li>
+                </ul>
+              </div>
+              
+      
+           
+          </div>
+      
+          <!-- Impact Section -->
+          <div class="row mt-5">
+            <div class="col-lg-10 mx-auto text-center">
+              <h3 class="fw-bold text-success">The Impact of Our Work</h3>
+              <ul class="impact-list text-start mx-auto small" style="max-width: 600px;">
+                <li>Design of Targeted Interventions</li>
+                <li>Informed Recommendations</li>
+                <li>Community Awareness and Engagement</li>
+                <li>Strengthened Community Participation</li>
+              </ul>
+              <p class="fs-5 text-muted">These in-depth assessments offer critical insights into the socio-economic conditions of vulnerable communities, enabling data-driven action.</p>
+            </div>
+          </div>
+      
+          <div class="col-12">
+            <h4 class="card-title">Survey on Household Listing and Social Security Schemes Facilitation (November 2024 – March 2025)</h4>
+            <p><strong>Objective:</strong> The primary aim of this initiative was to engage with Below-Poverty-Line (BPL) households to:</p>
+            <ul class="survey-points">
+              <li>Collect detailed demographic and socio-economic data.</li>
+              <li>Raise awareness about existing social protection schemes.</li>
+              <li>Facilitate access to welfare programs and ensure eligible families receive their entitlements within defined timelines and budgets.</li>
+            </ul>
+            <p><strong>Key Areas Covered:</strong></p>
+            <ul class="survey-points">
+              <li><strong>Household Listing:</strong>
+                <ul>
+                  <li>Demographic profiling of each household, including family size, income, and vulnerabilities (e.g., elderly, differently-abled, children).</li>
+                  <li>Geographic mapping of BPL households in targeted locations to better assess needs.</li>
+                </ul>
+              </li>
+              <li><strong>Social Security Schemes Facilitation:</strong>
+                <ul>
+                  <li><strong>Awareness Campaigns:</strong> Conducted sessions on government schemes such as PDS, DBT, Ayushman Bharat, Eshram, and ABHA.</li>
+                  <li><strong>Eligibility Assistance:</strong> Guided families in checking eligibility and understanding application processes.</li>
+                  <li><strong>Documentation Support:</strong> Helped households gather and submit necessary documentation.</li>
+                  <li><strong>Enrollment Tracking:</strong> Monitored progress to ensure successful enrolment and benefit delivery.</li>
+                </ul>
+              </li>
+            </ul>
+            <p><strong>Impact:</strong></p>
+            <ul class="survey-points">
+              <li><strong>Empowered Communities:</strong> Families were better informed and felt confident in asserting their entitlements.</li>
+              <li><strong>Enhanced Access to Welfare Schemes:</strong> A notable increase in successful enrollments in government programs led to improved healthcare, nutrition, and financial stability for many households.</li>
+            </ul>
+          </div>
+          
+          <div class="col-12">
+            <h4 class="card-title">Surveys and Impact Overview</h4>
+            <p>The surveys conducted by Tapasvi—spanning communities of beggars, street children, the elderly, tribal populations, and economically weaker households—have been pivotal in identifying service gaps and guiding impactful interventions. These surveys have:</p>
+            <ul class="survey-points">
+              <li><strong>Enabled the development of targeted, need-based programs.</strong></li>
+              <li><strong>Provided data-driven insights for policy recommendations.</strong></li>
+              <li><strong>Fostered community empowerment and engagement.</strong></li>
+            </ul>
+            <p>Through continuous field research, policy advocacy, and inclusive social initiatives, Tapasvi remains steadfast in its mission to uplift marginalized populations and create a more compassionate and equitable society.</p>
+          </div>
+          
+          <!-- Call to Action -->
+          <div class="text-center mt-5 cta-section">
+            <h4 class="fw-bold text-primary">Together, We Can Do More</h4>
+            <p class="mb-4 fs-5">Your support can help us turn insights into impact. Let’s uplift lives—one survey, one story, one solution at a time.</p>
+            <a href="donate_now.html" class="btn btn-donate">Donate Now</a>
+          </div>
+        </div>
+      </section>
+      
+  <section class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Get Involved</h3>
+        <ul>
+          <li><a href="#">Volunteer</a></li>
+          <li><a href="#">Donate</a></li>
+          <li><a href="#">Partnerships</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="blackbosx.html">Home</a></li>
+          <li><a href="about_us.html">About Us</a></li>
+          <li><a href="updating.html">Programs</a></li>
+          <li><a href="team.html">Programs</a></li> 
+          <li><a href="updating.html">Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Our Supporters</h3>
+        <img src="infosys_founda.png" alt="Supporters" class="footer-image">
+        <img src="pinetrunk.png" alt="Supporters" class="footer-image">
+        <img src="sbi.png" alt="Supporters" class="footer-image"> <!-- Replace with your image path -->
+      </div>
+      <div class="footer-section">
+        <h3>Contact Details</h3>
+        <p>
+          <i class="fas fa-map-marker-alt"></i> Road No: 9B, Alkapuri, Hyderabad-500035, Telangana.
+        </p>
+        <p>
+          <i class="fas fa-phone"></i> Phone:
+          <a href="tel:+919515529179" style="text-decoration: none; color: inherit;">+91-9515529179</a>
+        </p>
+        <p>
+          <i class="fas fa-envelope"></i> Email:
+          <a href="https://mail.google.com/mail/u/0/?fs=1&to=tapasvi.india@gmail.com&su=Inquiry+from+Your+Website&body=Hello,%0A%0AI+would+like+to+learn+more+about+your+services.%0A%0ABest+Regards,&tf=cm" style="text-decoration: none; color: inherit;">
+            tapasvi.india@gmail.com
+          </a>
+        </p>
+      </div>
+      <div class="footer-section">
+       
+    </div>
+
+  
+  <style>
+    /* Footer Styles */
+    .footer {
+      background-color: #040404;
+      padding: 40px 20px;
+      color: #f8f8f8;
+      font-family: 'Arial', sans-serif;
+      overflow-x: visible;
+    }
+  
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  
+    .footer-section {
+      flex: 1 1 200px; /* Flex-grow, flex-shrink, flex-basis */
+      margin: 10px;
+      min-width: 200px;
+    }
+  
+    .footer-section h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #ffffff;
+    }
+  
+    .footer-section ul {
+      list-style-type: none;
+      padding: 0;
+    }
+  
+    .footer-section ul li {
+      margin: 5px 0;
+    }
+  
+    .footer-section ul li a {
+      text-decoration: none;
+      color: #e6e3e3;
+      transition: color 0.3s;
+    }
+  
+    .footer-section ul li a:hover {
+      color: #fe0c0c;
+    }
+  
+    .footer-image {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+    }
+  
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column; /* Stack sections vertically on small screens */
+        align-items: flex-start;
+      }
+    }
+  </style>
+
+</section>
+</body>
+</html>
